@@ -1,0 +1,180 @@
+// Variables de estilo
+$background-color: #f0f2f5;
+$form-background-color: #fff;
+$border-color: #ddd;
+$border-focus-color: #007bff;
+$shadow-color: rgba(0, 0, 0, 0.1);
+$shadow-focus-color: rgba(38, 143, 255, 0.25);
+$primary-color: #007bff;
+$primary-hover-color: #0056b3;
+$disabled-color: #6c757d;
+$text-color: #333;
+$error-color: #e74c3c;
+
+// Clases generales
+.flex {
+  display: flex;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.full-height {
+  min-height: 100vh;
+}
+
+.background-light {
+  background-color: $background-color;
+}
+
+.background-white {
+  background-color: $form-background-color;
+}
+
+.padding-20 {
+  padding: 20px;
+}
+
+.border {
+  border: 1px solid $border-color;
+}
+
+.border-radius-4 {
+  border-radius: 4px;
+}
+
+.border-radius-8 {
+  border-radius: 8px;
+}
+
+.box-shadow {
+  box-shadow: 0 2px 5px $shadow-color;
+}
+
+.box-shadow-focus {
+  box-shadow: 0 0 0 0.2rem $shadow-focus-color;
+}
+
+.color-text {
+  color: $text-color;
+}
+
+.color-primary {
+  color: $primary-color;
+}
+
+.color-primary-hover {
+  color: $primary-color;
+}
+
+.color-disabled {
+  background-color: $disabled-color;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+
+.transition {
+  transition: background-color 0.3s ease;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.margin-bottom-15 {
+  margin-bottom: 15px;
+}
+
+.margin-bottom-8 {
+  margin-bottom: 8px;
+}
+
+.margin-top-10 {
+  margin-top: 10px;
+}
+
+.width-full {
+  width: 100%;
+}
+
+.font-size-1rem {
+  font-size: 1rem;
+}
+
+.font-size-0-875rem {
+  font-size: 0.875rem;
+}
+
+// Estilos específicos
+.fb-log-in-form-container {
+  @extend .flex;
+  @extend .center;
+  @extend .full-height;
+  @extend .background-light;
+}
+
+.fb-log-in-form-hijo {
+  @extend .background-white;
+  @extend .padding-20;
+  @extend .border-radius-8;
+  @extend .box-shadow;
+  max-width: 400px;
+  width: 100%;
+
+  label {
+    @extend .margin-bottom-8;
+    @extend .font-weight-bold;
+    @extend .color-text;
+  }
+
+  .form-control {
+    @extend .width-full;
+    @extend .margin-bottom-15;
+    @extend .border;
+    @extend .border-radius-4;
+    @extend .font-size-1rem;
+    @extend .color-text;
+    box-sizing: border-box;
+
+    &:focus {
+      @extend .box-shadow-focus;
+      outline: none;
+    }
+  }
+
+  input[type="submit"] {
+    @extend .width-full;
+    @extend .border-radius-4;
+    @extend .font-size-1rem;
+    @extend .cursor-pointer;
+    @extend .transition;
+
+    &:hover {
+      @extend .color-primary-hover;
+      background-color: $primary-hover-color;
+    }
+
+    &:disabled {
+      @extend .color-disabled;
+      @extend .cursor-not-allowed;
+    }
+  }
+
+  p {
+    @extend .margin-top-10;
+    @extend .font-size-0-875rem;
+    @extend .text-center;
+  }
+}

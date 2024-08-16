@@ -1,0 +1,78 @@
+$toolbar-height: 45px;
+$toolbar-background: #004188;
+$toolbar-text-color: #fff;
+$link-color: #004188;
+$spacer-flex: 1;
+$spacing: 16px;
+
+
+.flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.margin-horizontal {
+  margin-left: $spacing;
+  margin-right: $spacing;
+}
+
+.color-white {
+  color: $toolbar-text-color;
+}
+
+.color-link {
+  color: $link-color;
+}
+
+.color-link-hover {
+  color: $link-color;
+}
+
+.background-toolbar {
+  background-color: $toolbar-background;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.flex-grow {
+  flex: $spacer-flex;
+}
+
+
+.fb-toolbar {
+  @extend .flex;
+  @extend .align-center;
+  @extend .full-width;
+  height: $toolbar-height;
+  @extend .background-toolbar;
+  @extend .color-white;
+
+  .spacer {
+    @extend .flex-grow;
+  }
+
+  #welcome,
+  #logout,
+  #change {
+    @extend .margin-horizontal;
+  }
+
+  #logout,
+  #change {
+    @extend .no-underline;
+    @extend .color-link;
+
+    &:hover {
+      @extend .color-link-hover;
+    }
+  }
+}

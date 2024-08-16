@@ -1,0 +1,16 @@
+<article class="fb-log-in-form-container">
+  <section class="fb-log-in-form-hijo">
+    <h2>LOGIN</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <label for="user">Nombre de Usuario:</label>
+      <input id="user" type="text" formControlName="user" class="form-control" placeholder="Ingresar Usuario" />
+      
+      <label for="passwords">Contraseña:</label>
+      <input id="passwords" type="password" formControlName="passwords" class="form-control" placeholder="Ingresar Contraseña" />
+      
+      <input type="submit" value="Ingresar" [disabled]="loginForm.invalid" />
+      
+      <p *ngIf="errorMessage">{{ errorMessage }}</p>
+    </form>
+  </section>
+</article>
