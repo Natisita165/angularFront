@@ -1,14 +1,9 @@
 <section class="fb-home-page-posts-list">
     <h3>Posts</h3>
     <section *ngFor="let post of posts" class="post">
+      
     <!-- <section *ngFor="let post of posts$ | async" class="post"> -->
-      <p>{{ post.message }}</p>
-      <section *ngIf="post.file" class="post-file">
-        <img *ngIf="post.file.type.startsWith('image/')" [src]="post.fileUrl" alt="File preview" />
-      </section>
-  
-      <fb-posts-comment [post]="(postsComments$ | async)" (submitComment)="onSubmitComment($event)"></fb-posts-comment>
-      {{postsComments$ | async | json}}
+    <app-fb-posts-list-item [post]="post"></app-fb-posts-list-item>
     </section>
     
   </section>

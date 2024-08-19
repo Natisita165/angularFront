@@ -1,7 +1,33 @@
 <section class="fb-home-page-posts-comment">
+  <h4>Comentarios</h4>
+  <section *ngFor="let comment of (postsComment$ | async) as comments; let i = index" class="comment">
+    <p>{{ i + 1 }}. {{ comment.comments }}</p>
+    <button type="button" class="btn btn-link" (click)="openDialog(post, comment)">Responder Comentario</button>
+    <section *ngFor="let reply of comment.replies || []; let j = index" class="reply">
+      <p>{{ j + 1 }}. {{ reply }}</p>
+    </section>
+  </section>
+
+  <form (ngSubmit)="onSubmitComment()" #commentForm="ngForm">
+    <section class="form-group">
+      <label for="comment">Comentario:</label>
+      <textarea id="comment" name="comment" [(ngModel)]="postComment" required></textarea>
+    </section>
+    <button type="submit">Comentar</button>
+  </form>
+</section>
+
+
+
+
+
+
+
+
+<!--
+<section class="fb-home-page-posts-comment">
     <h4>Comentarios</h4>
-    <section *ngFor="let comment of postsComment; let i = index" class="comment">
-      {{postsComment$ | async | json}}
+    <section *ngFor="let comment of postsComment$ | async; let i = index" class="comment">
       <p>{{ i + 1 }}. {{ comment.comments }}</p>
       <button type="button" class="btn btn-link" (click)="openDialog(post, comment)">Responder Comentario</button>
       <section *ngFor="let reply of comment.replies; let j = index" class="reply">
@@ -18,4 +44,4 @@
       <button type="submit">Comentar</button>
     </form>
   </section>
-  
+-->

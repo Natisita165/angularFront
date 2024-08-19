@@ -6,18 +6,15 @@ export const initialState: ReadonlyArray<PostComment> = [];
 
 export const postsCommentReducer = createReducer(
     initialState,
-    on(addPostComment,(oldState, {pcomment}) => {
-        return [...oldState, ...[pcomment]]
-    }),
-    on(retrievedPostCommentList,(oldState, {pcomments}) => {
-        return [...oldState, ...pcomments]
-    }),
-    on(updatedPostComment, (oldState, { updatedComment }) => ({
-        ...oldState,
-        updatedComment: oldState.map(comment =>
+    on(addPostComment,(state, {pcomment}) => [...state, pcomment]),
+    
+    on(retrievedPostCommentList,(state, {pcomments}) => pcomments),
+    
+    on(updatedPostComment, (state, { updatedComment }) => 
+        state.map(comment =>
             comment.commentId === updatedComment.commentId ? updatedComment : comment
         )
-    }))
+    )
 )
 
 

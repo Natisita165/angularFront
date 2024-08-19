@@ -3,10 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { FbBulletinFormComponent } from '../fb-bulletin-form/fb-bulletin-form.component';
 import { Post } from '../interface/post';
 import { Store } from '@ngrx/store';
-import { retrievedPostList } from 'src/app/state/actions/fb-posts.action';
+import { retrievedPostList, updatedPost } from 'src/app/state/actions/fb-posts.action';
 import { Observable } from 'rxjs';
 import { selectPosts } from 'src/app/state/selectors/fb-posts.selectors';
 import { PostComment } from '../interface/post-comment';
+import { updatedPostComment } from 'src/app/state/actions/fb-posts-comment.action';
 
 @Component({
   selector: 'app-home-page',
@@ -24,6 +25,8 @@ export class FbHomePageComponent{
   public listPosts: Post[];
   public listPosts$: Observable<any>;
   public listComments: PostComment[];
+  private nextCommentId: number;
+  private nextPostId: number;
 
   constructor(public dialog: MatDialog, private cdr: ChangeDetectorRef, private store: Store<any>) {
     this.postMessage = this._EMPTY;
@@ -32,7 +35,8 @@ export class FbHomePageComponent{
     this.fileUrl = this._EMPTY;
     this.listPosts = [];
     this.listPosts$ = this.store.select(selectPosts);
-
+    this.nextCommentId=1;
+    this.nextPostId=1;
     this.listComments = [
         
     ];
@@ -68,7 +72,8 @@ export class FbHomePageComponent{
     }
     
     const newPost: Post = {
-      postId: new Date().getMilliseconds.toString(),
+      //postId: new Date().getMilliseconds.toString(),
+      postId: (this.nextPostId++).toString(),
       message: this.postMessage,
       file: this.selectedFile,
       fileUrl: this.fileUrl,
@@ -92,18 +97,23 @@ export class FbHomePageComponent{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) { 
-        const targetComment = post.postcommentp.find((c: any) => c.commentId === comment.commentId);
-        if (targetComment) {
-          
-          targetComment.replies = targetComment.replies || [];
-          targetComment.replies.push(result);
-          //this.store.dispatch(updatedPostComment({ updatedComment: result }));
-          //this.store.dispatch(updatedPost({ updatePost: result }));
-          //console.log('9',updatedPost({ updatePost: result }));
-          //console.log('10',updatedPostComment({ updatedComment: result }));
-          this.cdr.detectChanges();
-        }
+      if (result !== undefined) {
+        const newupdatedComment: PostComment = {
+          ...result,
+          replies: [...(comment.replies || []), result],
+          commentId: this.nextCommentId++ 
+        };
+
+       
+        const newupdatedPost: Post = {
+          ...post,
+          postcommentp: post.postcommentp.map(c => c.commentId === comment.commentId ? newupdatedComment : c)
+        };
+
+        this.store.dispatch(updatedPost({ updatePost: newupdatedPost }));
+        this.store.dispatch(updatedPostComment({ updatedComment: newupdatedComment }));
+
+        this.cdr.detectChanges();
       }
     });
   }

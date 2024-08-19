@@ -21,6 +21,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { ROOT_REDUCERS } from './state/app.state';
+import { FbPostsListItemComponent } from './module/secure/fb-posts-list-item/fb-posts-list-item.component';
 
 
 
@@ -34,7 +35,8 @@ import { ROOT_REDUCERS } from './state/app.state';
     FbLogInComponent,
     FbBulletinFormComponent,
     FbPostsListComponent,
-    FbPostsCommentComponent
+    FbPostsCommentComponent,
+    FbPostsListItemComponent
     
   ],
   imports: [

@@ -4,12 +4,14 @@ import { FbBulletinFormComponent } from './fb-bulletin-form/fb-bulletin-form.com
 import { FbHomePageComponent } from './fb-home-page/fb-home-page.component';
 import { FbPostsListComponent } from './fb-posts-list/fb-posts-list.component';
 import { FbPostsCommentComponent } from './fb-posts-comment/fb-posts-comment.component';
+import { FbPostsListItemComponent } from './fb-posts-list-item/fb-posts-list-item.component';
 
 const routes: Routes = [
   { path: '', component: FbHomePageComponent },
   { path: 'bulletin', component: FbBulletinFormComponent },
   { path: 'postslist', component: FbPostsListComponent},
-  { path: 'postscomment', component: FbPostsCommentComponent}
+  { path: 'postscomment', component: FbPostsCommentComponent},
+  { path: 'postslistitem', component: FbPostsListItemComponent}
 ];
 
 @NgModule({

@@ -15,23 +15,22 @@ import { retrievedPostCommentList } from 'src/app/state/actions/fb-posts-comment
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FbPostsCommentComponent {
-  [x: string]: any;
+
   @Input() post: Post = {} as Post;
   @Output() submitComment;
 
   public postComment: string;
   private readonly _EMPTY: string = '';
-
-  public postsComment: PostComment[];
-  postsComment$: Observable<any>;
+  public postsComment$: Observable<ReadonlyArray<PostComment>>;
 
   constructor(public dialog: MatDialog, private cdr: ChangeDetectorRef,private store: Store){
+
     this.submitComment = new EventEmitter<{ post: Post, comment: string }>();
     this.postComment = this._EMPTY;
-
-
-    this.postsComment = [];
     this.postsComment$ = this.store.select(selectPostsComment);
+    this.postsComment$.subscribe(data => {
+      console.log('Posts comments:', data);
+    });
     
   }
 
@@ -54,9 +53,9 @@ export class FbPostsCommentComponent {
       if (result !== undefined) { 
         const targetComment = post.postcommentp.find((c: PostComment) => c.commentId === comment.commentId);
         if (targetComment) {
-          //targetComment.replies = targetComment.replies || [];
-          //targetComment.replies.push(result);
-          this.store.dispatch(retrievedPostCommentList({ pcomments: [targetComment] }));
+
+          const newupdatedComment = { ...targetComment, replies: [...(targetComment.replies || []), result] };
+          this.store.dispatch(retrievedPostCommentList({ pcomments: [newupdatedComment] }));
           this.cdr.markForCheck();
         }
       }

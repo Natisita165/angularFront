@@ -1,0 +1,11 @@
+<!-- <section class="fb-posts-list-item" *ngFor="let post of posts" class="post"> -->
+    <section>
+      <p>{{ post.message }}</p>
+      <section *ngIf="post.file" class="posts-file">
+        <img *ngIf="post.file.type.startsWith('image/')" [src]="post.fileUrl" alt="File preview" />
+      </section>
+  
+      <fb-posts-comment [post]="post" (submitComment)="onSubmitComment($event)"></fb-posts-comment>
+      {{postsComments$ | async | json}}
+    
+  </section>

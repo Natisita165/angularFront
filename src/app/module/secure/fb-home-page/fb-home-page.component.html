@@ -12,11 +12,9 @@
     </section>
     <button type="submit">Publicar</button>
   </form>
-
-  <!--<fb-posts-list [posts]="posts" (openDialog)="openDialog($event.post, $event.comment)"></fb-posts-list>-->
   
-  <fb-posts-list [posts]="(listPosts$ | async)" (openDialog)="openDialog($event.post, $event.comment)"></fb-posts-list>
-
+  <fb-posts-list [posts]="listPosts$ | async" (openDialog)="openDialog($event.post, $event.comment)"></fb-posts-list>
+  
 </article>
 
 
