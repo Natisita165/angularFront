@@ -72,8 +72,7 @@ export class FbHomePageComponent{
     }
     
     const newPost: Post = {
-      //postId: new Date().getMilliseconds.toString(),
-      postId: (this.nextPostId++).toString(),
+      postId: this.nextPostId++,
       message: this.postMessage,
       file: this.selectedFile,
       fileUrl: this.fileUrl,
@@ -81,6 +80,7 @@ export class FbHomePageComponent{
       postcommentp: []
     };
 
+    console.log(newPost);
     
     this.store.dispatch(retrievedPostList({ posts: [newPost] }));
     this.cdr.markForCheck();
@@ -101,7 +101,8 @@ export class FbHomePageComponent{
         const newupdatedComment: PostComment = {
           ...result,
           replies: [...(comment.replies || []), result],
-          commentId: this.nextCommentId++ 
+          commentId: this.nextCommentId++ ,
+          
         };
 
        
@@ -110,8 +111,16 @@ export class FbHomePageComponent{
           postcommentp: post.postcommentp.map(c => c.commentId === comment.commentId ? newupdatedComment : c)
         };
 
+
+        const newupdatedComment2: PostComment = {
+          ...result,
+          commentPostId: newupdatedPost.postId
+          
+        };
+
         this.store.dispatch(updatedPost({ updatePost: newupdatedPost }));
-        this.store.dispatch(updatedPostComment({ updatedComment: newupdatedComment }));
+        this.store.dispatch(updatedPostComment({ updatedComment: newupdatedComment2 }));
+        this.store.dispatch(retrievedPostList({ posts: [newupdatedPost] }));
 
         this.cdr.detectChanges();
       }

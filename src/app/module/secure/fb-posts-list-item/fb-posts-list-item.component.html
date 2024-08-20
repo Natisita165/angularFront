@@ -5,7 +5,8 @@
         <img *ngIf="post.file.type.startsWith('image/')" [src]="post.fileUrl" alt="File preview" />
       </section>
   
-      <fb-posts-comment [post]="post" (submitComment)="onSubmitComment($event)"></fb-posts-comment>
-      {{postsComments$ | async | json}}
+      <!-- <fb-posts-comment [post]="postsComments$ | async" (submitComment)="onSubmitComment($event)"></fb-posts-comment> -->
+      <fb-posts-comment [post]="post" (submitComment)="handleSubmitComment($event)"></fb-posts-comment>
+  
     
   </section>

@@ -5,8 +5,9 @@ import { Store } from '@ngrx/store';
 import { selectPostsComment } from 'src/app/state/selectors/fb-posts-comment.selectors';
 import { retrievedPostCommentList, updatedPostComment } from 'src/app/state/actions/fb-posts-comment.action';
 import { PostComment } from '../interface/post-comment';
-import { retrievedPostList, updatedPost } from 'src/app/state/actions/fb-posts.action';
+import { addPost, retrievedPostList, updatedPost } from 'src/app/state/actions/fb-posts.action';
 import { selectPosts } from 'src/app/state/selectors/fb-posts.selectors';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-fb-posts-list-item',
@@ -20,10 +21,13 @@ export class FbPostsListItemComponent implements OnChanges {
   @Output() submitComment;
 
   private nextCommentId: number;
-  public postsComments$: Observable<any>;
+  //public postsComments$: Observable<PostComment[]>;
+  public postsComments$: Observable<ReadonlyArray<PostComment>>;
   public postsComments: PostComment[];
 
   private readonly _EMPTY: string = '';
+
+  private nextPostId: number;
   
   constructor(private cdr: ChangeDetectorRef, private store: Store){
 
@@ -32,19 +36,27 @@ export class FbPostsListItemComponent implements OnChanges {
     this.nextCommentId=1;
 
     this.postsComments$ = this.store.select(selectPostsComment);
+    /*this.postsComments$ = this.store.select(selectPostsComment).pipe(
+      map(comments => comments.filter(comment => comment.commentPostId === this.post.postId))
+    );*/
     this.postsComments = [];
 
+    this.nextPostId=1;
 
 
+
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.warn(changes)
-  }
-  public handleSubmitComment(commentData: { post: Post, comment: string }): void {
-    this.submitComment.emit(commentData);
-  }
+
   
-  public onSubmitComment(commentData: { post: Post, comment: string }): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['post']) {
+      //console.log('Post received in FbPostsListItemComponent:', this.post);
+    }
+  }
+
+
+  public handleSubmitComment(commentData: { post: Post, comment: string }): void {
+    
     if (!commentData.comment.trim()) {
       alert('El comentario es obligatorio.');
       return;
@@ -54,9 +66,13 @@ export class FbPostsListItemComponent implements OnChanges {
     const newComment: PostComment = {
       comments: commentData.comment,
       replies: [],
-      commentId: this.nextCommentId++
+      //commentId: this.nextCommentId++,
+      commentId: Date.now(),
+      commentPostId: commentData.post.postId
+      
       
     };
+    console.log('1', newComment);
 
 
     this.store.dispatch(updatedPostComment({ updatedComment: newComment }));
@@ -65,10 +81,11 @@ export class FbPostsListItemComponent implements OnChanges {
       ...commentData.post,
       postcommentp: [...(commentData.post.postcommentp || []), newComment]
     };
-
+    console.log('1', newupdatedPost);
     this.store.dispatch(updatedPost({ updatePost: newupdatedPost }));
 
-    //this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
+
 
 }

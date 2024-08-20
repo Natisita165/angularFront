@@ -3,4 +3,5 @@ export interface PostComment {
     comments: string;
     replies: string[];
     replyText?: string;
+    commentPostId: number;
   }

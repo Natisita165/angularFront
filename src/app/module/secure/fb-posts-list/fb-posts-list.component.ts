@@ -6,6 +6,7 @@ import { selectPostsComment } from 'src/app/state/selectors/fb-posts-comment.sel
 import { retrievedPostCommentList, updatedPostComment } from 'src/app/state/actions/fb-posts-comment.action';
 import { PostComment } from '../interface/post-comment';
 import { addPost, retrievedPostList, updatedPost } from 'src/app/state/actions/fb-posts.action';
+import { selectPosts } from 'src/app/state/selectors/fb-posts.selectors';
 
 @Component({
   selector: 'fb-posts-list',
@@ -20,6 +21,7 @@ export class FbPostsListComponent implements OnChanges{
   private nextCommentId: number;
   private nextPostId: number;
 
+  public listPosts$: Observable<any>;
 
   public postMessage: string;
   public postComment: string;
@@ -35,13 +37,14 @@ export class FbPostsListComponent implements OnChanges{
     this.nextCommentId=1;
     this.nextPostId=1;
 
+    this.listPosts$ = this.store.select(selectPosts);
+
     this.postMessage = this._EMPTY;
     this.postComment = this._EMPTY;
     this.selectedFile = null;
     this.fileUrl = this._EMPTY;
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.warn(changes)
   }
 
   public handleSubmitComment(commentData: { post: Post, comment: string }): void {
@@ -57,24 +60,35 @@ export class FbPostsListComponent implements OnChanges{
     const newComment: PostComment = {
       comments: commentData.comment,
       replies: [],
-      commentId: this.nextCommentId++
+      commentId: this.nextCommentId++,
+      commentPostId: commentData.post.postId
+    
   };
 
-  this.store.dispatch(updatedPostComment({ updatedComment: newComment }));
+  
 
   const newupdatedPost: Post = {
       ...commentData.post,
       postcommentp: [...(commentData.post.postcommentp || []), newComment]
   };
 
+  const newComment2: PostComment = {
+    comments: commentData.comment,
+    replies: [],
+    commentId: this.nextCommentId++,
+    commentPostId: newupdatedPost.postId
+  
+};
+  this.store.dispatch(updatedPostComment({ updatedComment: newComment2 }));
   this.store.dispatch(updatedPost({ updatePost: newupdatedPost }));
+  
 
   this.cdr.detectChanges();
   }
-
+/*
   public addNewPost(message: string, file: File | null, fileUrl: string): void {
     const newPost: Post = {
-      postId: (this.nextPostId++).toString(), // Genera un nuevo ID de post
+      postId: (this.nextPostId++).toString(), 
       message: message,
       file: file,
       fileUrl: fileUrl,
@@ -83,6 +97,7 @@ export class FbPostsListComponent implements OnChanges{
     };
 
     this.store.dispatch(addPost({ post: newPost }));
-  }
+    this.store.dispatch(retrievedPostList({ posts: [newPost] }));
+  }*/
 }
 

@@ -1,9 +1,9 @@
 <section class="fb-home-page-posts-list">
     <h3>Posts</h3>
     <section *ngFor="let post of posts" class="post">
-      
+      <p>{{ post.message }}</p>
     <!-- <section *ngFor="let post of posts$ | async" class="post"> -->
-    <app-fb-posts-list-item [post]="post"></app-fb-posts-list-item>
+    <app-fb-posts-list-item [post]="listPosts$ | async"></app-fb-posts-list-item>
     </section>
     
   </section>

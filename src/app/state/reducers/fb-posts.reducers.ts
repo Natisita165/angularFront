@@ -10,7 +10,7 @@ export const postsReducer = createReducer(
     initialState,
     on(addPost,(state, {post}) => [...state, post]),
 
-    on(retrievedPostList,(state, {posts}) => posts),
+    on(retrievedPostList,(state, {posts}) => [...state, ...posts]),
 
     on(updatedPost, (state, { updatePost }) => state.map(post =>
       post.postId === updatePost.postId ? updatePost : post
